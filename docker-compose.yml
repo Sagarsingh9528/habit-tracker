@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: habit-tracker-db
+    environment:
+      POSTGRES_USER: habituser
+      POSTGRES_PASSWORD: habitpass
+      POSTGRES_DB: habit_tracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U habituser"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    container_name: habit-tracker-backend
+    environment:
+      DATABASE_URL: postgresql://habituser:habitpass@postgres:5432/habit_tracker
+      JWT_SECRET: super-secret-jwt-key-change-in-production-min-32-chars
+      PORT: 3000
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: sh -c "npx prisma migrate deploy && npm start"
+
+  frontend:
+    build: ./frontend
+    container_name: habit-tracker-frontend
+    environment:
+      VITE_API_URL: http://localhost:3000/api
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
