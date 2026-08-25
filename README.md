@@ -67,13 +67,6 @@ cd backend
 npm install
 ```
 
-3. Create `.env` file:
-```env
-DATABASE_URL="postgresql://username:password@localhost:5432/habit_tracker"
-JWT_SECRET="your-secret-key-change-in-production"
-PORT=3000
-```
-
 4. Run database migrations:
 ```bash
 npx prisma migrate dev
@@ -131,32 +124,32 @@ Frontend will run on `http://localhost:5173`
 ## Features
 
 ### Core Features
-✅ User registration with timezone selection (IANA format)
-✅ Secure authentication (JWT + bcrypt)
-✅ Create, read, update, delete habits
-✅ One-click "check in for today" button
-✅ Backfill past dates
-✅ Strict validation (no duplicates, no future dates, no pre-creation dates)
-✅ Server-side streak calculation (current & longest)
-✅ Responsive UI with Tailwind CSS
-✅ Detailed habit history view
-✅ Clear error messages
+ User registration with timezone selection (IANA format)
+ Secure authentication (JWT + bcrypt)
+ Create, read, update, delete habits
+ One-click "check in for today" button
+ Backfill past dates
+ Strict validation (no duplicates, no future dates, no pre-creation dates)
+ Server-side streak calculation (current & longest)
+ Responsive UI with Tailwind CSS
+ Detailed habit history view
+ Clear error messages
 
 ### Bonus Features
-✅ Docker Compose for easy deployment
-✅ Database-level unique constraint on (habitId, localDate)
-✅ Isolated timezone conversion logic
-✅ Comprehensive README
+ Docker Compose for easy deployment
+ Database-level unique constraint on (habitId, localDate)
+ Isolated timezone conversion logic
+ Comprehensive README
 
 ## Testing Edge Cases
 
 The application handles these critical edge cases:
 
-1. **20-hour gap, different days**: ✅ Counted as consecutive
-2. **11-hour gap, same day**: ✅ Rejected as duplicate
-3. **Backfilling gaps**: ✅ Correctly recalculates streaks
-4. **Today vs Yesterday streak**: ✅ Streak alive if yesterday is logged
-5. **Timezone boundaries**: ✅ Respects user's local midnight
+1. **20-hour gap, different days**:  Counted as consecutive
+2. **11-hour gap, same day**:  Rejected as duplicate
+3. **Backfilling gaps**:  Correctly recalculates streaks
+4. **Today vs Yesterday streak**:  Streak alive if yesterday is logged
+5. **Timezone boundaries**:  Respects user's local midnight
 
 ## Example Scenario (Asia/Kolkata, UTC+05:30)
 
